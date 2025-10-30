@@ -3,298 +3,266 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Nguyễn Minh Nhật - Danford IT Applicant</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Neon Car Dodge PRO</title>
   <style>
-    :root { --primary: #0A66C2; --accent: #FF6B35; --dark: #1a1a1a; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'Inter', sans-serif;
-      background: #f8f9fa;
-      color: var(--dark); line-height: 1.7;
+      background: #000; overflow: hidden; font-family: 'Orbitron', sans-serif;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      height: 100vh; color: #0ff; perspective: 1000px;
     }
-    .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
-
-    .lang-switch {
-      position: fixed; top: 1rem; right: 1rem; z-index: 1000;
-      background: white; padding: 0.5rem; border-radius: 1rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    canvas {
+      border: 4px solid #0ff; border-radius: 15px;
+      box-shadow: 0 0 50px #0ff, inset 0 0 30px rgba(0,255,255,0.3);
+      transform: rotateX(15deg); image-rendering: pixelated;
     }
-    .lang-switch button {
-      background: none; border: none; padding: 0.5rem 1rem;
-      font-weight: 600; cursor: pointer; border-radius: 0.5rem;
+    .ui {
+      position: absolute; top: 20px; left: 20px; z-index: 10; text-shadow: 0 0 10px #0ff;
     }
-    .lang-switch button.active { background: var(--primary); color: white; }
-
-    header {
-      text-align: center; padding: 3rem 0 2rem; background: white;
-      border-radius: 1.5rem; margin-bottom: 2rem;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    .score { font-size: 28px; font-weight: bold; }
+    .highscore { font-size: 18px; margin-top: 5px; color: #f0f; }
+    .game-over {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      text-align: center; color: #f33; font-size: 50px; font-weight: bold;
+      text-shadow: 0 0 20px #f33; display: none; z-index: 20;
     }
-    .avatar {
-      width: 150px; height: 150px; border-radius: 50%;
-      object-fit: cover; border: 6px solid var(--primary);
-      margin-bottom: 1rem; cursor: zoom-in; transition: 0.3s;
+    .restart {
+      margin-top: 20px; padding: 15px 40px; background: #0ff; color: #000;
+      border: none; border-radius: 15px; font-size: 20px; font-weight: bold;
+      cursor: pointer; box-shadow: 0 0 30px #0ff; transition: 0.3s;
     }
-    .avatar:hover { transform: scale(1.05); }
-    h1 { font-size: 2.8rem; color: var(--primary); margin-bottom: 0.5rem; }
-    .tagline { font-size: 1.3rem; color: #444; font-weight: 500; }
-
-    nav {
-      display: flex; justify-content: center; gap: 1.5rem; margin: 2rem 0;
-      flex-wrap: wrap; background: white; padding: 1rem;
-      border-radius: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    }
-    nav a {
-      color: var(--dark); text-decoration: none; font-weight: 600;
-      padding: 0.7rem 1.3rem; border-radius: 0.5rem; transition: 0.3s;
-    }
-    nav a:hover { background: var(--primary); color: white; }
-
-    section {
-      background: white; padding: 2rem; border-radius: 1.5rem;
-      margin-bottom: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    }
-    h2 {
-      color: var(--primary); margin-bottom: 1rem; font-size: 2rem;
-      position: relative; padding-bottom: 0.5rem;
-    }
-    h2::after {
-      content: ''; position: absolute; left: 0; bottom: 0;
-      width: 60px; height: 4px; background: var(--accent); border-radius: 2px;
-    }
-
-    .intro {
-      background: linear-gradient(120deg, #e3f2fd 0%, #bbdefb 100%);
-      padding: 1.5rem; border-radius: 1rem; margin-bottom: 1.5rem;
-      font-size: 1.1rem; line-height: 1.8; text-align: center;
-      border-left: 5px solid var(--primary);
-    }
-
-    .timeline {
-      position: relative; padding-left: 2rem;
-    }
-    .timeline::before {
-      content: ''; position: absolute; left: 10px; top: 0; bottom: 0;
-      width: 4px; background: var(--primary); border-radius: 2px;
-    }
-    .timeline-item {
-      position: relative; margin-bottom: 1.5rem; padding-left: 2rem;
-      font-size: 1.05rem;
-    }
-    .timeline-item::before {
-      content: ''; position: absolute; left: -8px; top: 8px;
-      width: 16px; height: 16px; background: var(--primary);
-      border: 4px solid white; border-radius: 50%; box-shadow: 0 0 0 4px var(--primary);
-    }
-
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
-    .card { background: #f8f9fa; padding: 1.5rem; border-radius: 1rem; border: 1px solid #e9ecef; text-align: center; }
-    .card img {
-      width: 100%; height: 180px; object-fit: cover; border-radius: 0.5rem;
-      margin-bottom: 1rem; cursor: zoom-in; transition: 0.3s;
-    }
-    .card img:hover { transform: scale(1.03); }
-
-    .project {
-      display: flex; gap: 1rem; align-items: center; padding: 1rem;
-      background: #f0f8ff; border-radius: 1rem; border-left: 5px solid var(--primary);
-    }
-    .project img {
-      width: 80px; height: 80px; object-fit: cover; border-radius: 0.5rem;
-      cursor: zoom-in; transition: 0.3s;
-    }
-    .project img:hover { transform: scale(1.1); }
-    .project a { color: var(--primary); font-weight: 600; text-decoration: none; }
-
-    .highlight {
-      background: #fff8e1; padding: 1.2rem; border-radius: 1rem;
-      border-left: 5px solid var(--accent); margin: 1rem 0; font-style: italic;
-    }
-
-    .lightbox {
-      display: none; position: fixed; z-index: 9999; left: 0; top: 0;
-      width: 100%; height: 100%; background: rgba(0,0,0,0.9);
-      justify-content: center; align-items: center; cursor: zoom-out;
-    }
-    .lightbox img {
-      max-width: 90%; max-height: 90%; border: 5px solid white; border-radius: 1rem;
-      box-shadow: 0 0 30px rgba(255,255,255,0.3);
-    }
-    .lightbox.active { display: flex; }
-
-    [lang="en"] { display: none; }
-    body.en [lang="vi"] { display: none; }
-    body.en [lang="en"] { display: block; }
-
-    .play-btn {
-      display: inline-block; margin-top: 0.5rem; padding: 0.5rem 1rem;
-      background: var(--primary); color: white; border-radius: 0.5rem;
-      font-weight: 600; text-decoration: none; transition: 0.3s;
-    }
-    .play-btn:hover { background: #08529a; transform: scale(1.05); }
+    .restart:hover { background: #0cc; transform: scale(1.1); }
+    .speed { position: absolute; bottom: 20px; right: 20px; font-size: 24px; color: #ff0; text-shadow: 0 0 10px #ff0; }
   </style>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="lang-switch">
-    <button onclick="switchLang('vi')" class="active">VI</button>
-    <button onclick="switchLang('en')">EN</button>
+  <div class="ui">
+    <div class="score">Score: <span id="score">0</span></div>
+    <div class="highscore">Best: <span id="highscore">0</span></div>
   </div>
+  <div class="speed">Speed: <span id="speed">1.0x</span></div>
+  <canvas id="gameCanvas" width="450" height="650"></canvas>
 
-  <div class="container">
-    <header>
-      <img src="https://i.postimg.cc/BtGYt9vb/Gemini-Generated-Image-eze5bzeze5bzeze5.png" alt="Nguyễn Minh Nhật" class="avatar" onclick="openLightbox(this.src)">
-      <h1>Nguyễn Minh Nhật</h1>
-      <p class="tagline" lang="vi">Sinh viên CNTT | Ứng viên Danford 2026</p>
-      <p class="tagline" lang="en">IT Student | Danford Applicant 2026</p>
-    </header>
-
-    <section id="about">
-      <h2 lang="vi">Giới thiệu bản thân</h2>
-      <h2 lang="en">About Me</h2>
-      <div class="intro" lang="vi">
-        Tôi là Nguyễn Minh Nhật – một sinh viên CNTT đam mê công nghệ và khát khao vươn ra thế giới. 
-        Từ nhỏ, tôi đã mơ ước được học tập tại Úc để trải nghiệm môi trường giáo dục tiên tiến và phát triển toàn diện. 
-        Với nền tảng học tập vững chắc, kỹ năng lập trình thực tế và tinh thần trách nhiệm cộng đồng, 
-        tôi tin mình sẽ là ứng viên xuất sắc cho chương trình tại <strong>Danford Higher Education</strong>.
-      </div>
-      <div class="intro" lang="en">
-        I am Minh Nhat Nguyen – an IT student passionate about technology and eager to explore the world. 
-        Since childhood, I’ve dreamed of studying in Australia to experience advanced education and grow holistically. 
-        With a strong academic background, practical coding skills, and a commitment to community, 
-        I believe I am an outstanding candidate for <strong>Danford Higher Education</strong>.
-      </div>
-    </section>
-
-    <section id="education">
-      <h2 lang="vi">Hành trình học tập</h2>
-      <h2 lang="en">Education Journey</h2>
-      <div class="timeline">
-        <div class="timeline-item"><strong lang="vi">Mẫu giáo</strong><strong lang="en">Preschool</strong> — 2008–2011</div>
-        <div class="timeline-item"><strong lang="vi">Tiểu học An Viên</strong><strong lang="en">An Vien Primary School</strong> — 2011–2016</div>
-        <div class="timeline-item"><strong lang="vi">THCS Trịnh Hoài Đức</strong><strong lang="en">Trinh Hoai Duc Secondary School</strong> — 2016–2020</div>
-        <div class="timeline-item"><strong lang="vi">THPT Ngô Sĩ Liên</strong><strong lang="en">Ngo Si Lien High School</strong> — 2020–2023</div>
-        <div class="timeline-item"><strong lang="vi">ĐH Quốc tế (1 kỳ)</strong><strong lang="en">International University (1 semester)</strong> — 2023</div>
-        <div class="timeline-item"><strong lang="vi">Gap year + EAP</strong><strong lang="en">Gap Year + EAP Program</strong> — 2024</div>
-        <div class="timeline-item"><strong lang="vi">ĐH Lạc Hồng</strong><strong lang="en">Lac Hong University</strong> — 2025–nay</div>
-      </div>
-    </section>
-
-    <section id="story">
-      <h2 lang="vi">Hành trình ước mơ du học</h2>
-      <h2 lang="en">My Dream Journey</h2>
-      <div class="highlight" lang="vi">Từ khi còn nhỏ, tôi đã luôn ước mơ được đi du học để khám phá thế giới, trải nghiệm những nền văn hóa khác nhau và mở rộng tầm nhìn của mình.</div>
-      <div class="highlight" lang="en">Since childhood, I have dreamed of studying abroad to explore the world, experience diverse cultures, and broaden my horizons.</div>
-      <div class="highlight" lang="vi">Tôi tin rằng việc học tập ở nước ngoài không chỉ giúp tôi tiếp thu kiến thức mới mà còn rèn luyện tính độc lập, khả năng thích nghi và tư duy toàn cầu.</div>
-      <div class="highlight" lang="en">I believe studying overseas cultivates independence, adaptability, and global thinking.</div>
-      <div class="highlight" lang="vi">Niềm đam mê với Công nghệ Thông tin bắt đầu khi tôi nhận ra công nghệ có thể kết nối con người và thay đổi cuộc sống. Tôi đặc biệt quan tâm đến lập trình, phân tích dữ liệu và AI.</div>
-      <div class="highlight" lang="en">My passion for IT began when I realized technology connects people and transforms lives. I am drawn to programming, data analysis, and AI.</div>
-      <div class="highlight" lang="vi">Chương trình tại Danford sẽ giúp tôi xây dựng nền tảng vững chắc cả về học thuật lẫn thực hành.</div>
-      <div class="highlight" lang="en">Danford’s program will provide me with a strong academic and practical foundation.</div>
-      <div class="highlight" lang="vi">Sau khi tốt nghiệp, tôi mong muốn trở về Việt Nam để đóng góp vào ngành công nghệ thông tin.</div>
-      <div class="highlight" lang="en">Upon graduation, I aspire to return to Vietnam and contribute to the IT industry.</div>
-      <div class="highlight" lang="vi">Mục tiêu lớn nhất là mang tri thức toàn cầu về phục vụ quê hương.</div>
-      <div class="highlight" lang="en">My ultimate goal is to apply global knowledge to serve my homeland.</div>
-    </section>
-
-    <section id="activities">
-      <h2 lang="vi">Hoạt động ngoại khóa</h2>
-      <h2 lang="en">Extracurricular Activities</h2>
-      <div class="grid">
-        <div class="card">
-          <img src="https://i.postimg.cc/K19wg9HJ/4d065575-384a-4c6c-8acc-6f51cb8a1a6c.jpg" alt="CLB Bóng đá" onclick="openLightbox(this.src)">
-          <p lang="vi"><strong>CLB Bóng đá trường</strong> – Vô địch khu vực</p>
-          <p lang="en"><strong>School Football Club</strong> – District Champion</p>
-        </div>
-        <div class="card">
-          <img src="https://i.postimg.cc/9RyL11Ly/562dfdbb-241c-46f0-af7c-4c612ad15fa6.jpg" alt="Văn nghệ" onclick="openLightbox(this.src)">
-          <p lang="vi"><strong>Văn nghệ trường</strong> – Biểu diễn 5 lần</p>
-          <p lang="en"><strong>School Performances</strong> – 5 shows</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="projects">
-      <h2 lang="vi">Dự án nhỏ trên web</h2>
-      <h2 lang="en">Small Web Projects</h2>
-
-      <div class="grid">
-        <div class="project">
-          <img src="https://i.postimg.cc/LYtzJ3k7/Gemini-Generated-Image-yvgk1dyvgk1dyvgk.png" alt="Neon Car Dodge PRO" onclick="openLightbox(this.src)">
-          <div>
-            <h3 lang="vi">Neon Car Dodge PRO</h3>
-            <h3 lang="en">Neon Car Dodge PRO</h3>
-            <p lang="vi"><strong>Game né xe neon 3D</strong> – Điều khiển xe tránh chướng ngại vật, tăng tốc dần.</p>
-            <p lang="en"><strong>3D neon car dodging</strong> – Steer to avoid obstacles, speed increases.</p>
-            <p lang="vi" style="font-size:0.9rem; color:#0A66C2; margin:0.5rem 0;">
-              <strong>Tech:</strong> HTML5 Canvas, JavaScript, 3D perspective, particles, sound
-            </p>
-            <p lang="en" style="font-size:0.9rem; color:#0A66C2; margin:0.5rem 0;">
-              <strong>Tech:</strong> HTML5 Canvas, JavaScript, 3D perspective, particles, sound
-            </p>
-            <a href="game_dua_xe.html" target="_blank" class="play-btn">
-              Chơi ngay
-            </a>
-          </div>
-        </div>
-
-        <div class="project">
-          <img src="https://i.postimg.cc/H8W7VDk3/Gemini-Generated-Image-eiw54seiw54seiw5.png" alt="Galaxy Shooter" onclick="openLightbox(this.src)">
-          <div>
-            <h3 lang="vi">Galaxy Shooter - Bắn Gà Vũ Trụ</h3>
-            <h3 lang="en">Galaxy Shooter - Space Chicken</h3>
-            <p lang="vi"><strong>Game bắn gà không gian</strong> – Bắn hạ kẻ địch, né đạn, thu power-up.</p>
-            <p lang="en"><strong>Space chicken shooter</strong> – Shoot enemies, dodge bullets, collect power-ups.</p>
-            <p lang="vi" style="font-size:0.9rem; color:#0A66C2; margin:0.5rem 0;">
-              <strong>Tech:</strong> HTML5 Canvas, JavaScript, collision, waves, particles
-            </p>
-            <p lang="en" style="font-size:0.9rem; color:#0A66C2; margin:0.5rem 0;">
-              <strong>Tech:</strong> HTML5 Canvas, JavaScript, collision, waves, particles
-            </p>
-            <a href="game_ban_ga.html" target="_blank" class="play-btn">
-              Chơi ngay
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact">
-      <h2 lang="vi">Liên hệ</h2>
-      <h2 lang="en">Contact</h2>
-      <p>
-        <strong>Email:</strong> <a href="mailto:minhnhat362005@gmail.com">minhnhat362005@gmail.com</a><br>
-        <strong>Phone:</strong> +84 966 520 902
-      </p>
-    </section>
-  </div>
-
-  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-    <img id="lightbox-img" src="" alt="Zoomed Image">
+  <div class="game-over" id="gameOver">
+    <div>CRASHED!</div>
+    <div style="font-size:28px; margin:15px 0;">Score: <span id="finalScore">0</span></div>
+    <button class="restart" onclick="restartGame()">PLAY AGAIN</button>
   </div>
 
   <script>
-    function switchLang(lang) {
-      document.body.className = lang;
-      document.querySelectorAll('.lang-switch button').forEach(btn => {
-        btn.classList.toggle('active', btn.textContent.trim() === (lang === 'vi' ? 'VI' : 'EN'));
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreEl = document.getElementById('score');
+    const highscoreEl = document.getElementById('highscore');
+    const finalScoreEl = document.getElementById('finalScore');
+    const speedEl = document.getElementById('speed');
+    const gameOverScreen = document.getElementById('gameOver');
+
+    // Âm thanh
+    const sounds = {
+      engine: new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYA...'), // (âm thanh động cơ)
+      crash: new Audio('data:audio/wav;base64,UklGRl4AAABXQVZFZm10IBIAAAABAAEARKwAAIhYA...'),
+      bgm: new Audio('data:audio/wav;base64,UklGRnoDAABXQVZFZm10IBIAAAABAAEARKwAAIhYA...')
+    };
+    sounds.bgm.loop = true; sounds.bgm.volume = 0.3;
+
+    let player = { x: 200, y: 500, width: 50, height: 80, speed: 10, trail: [] };
+    let obstacles = [];
+    let particles = [];
+    let stars = [];
+    let score = 0;
+    let gameSpeed = 5;
+    let gameActive = true;
+    let highscore = localStorage.getItem('neonHighscore') || 0;
+    highscoreEl.textContent = highscore;
+
+    // Tạo sao nền
+    for (let i = 0; i < 100; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 2,
+        speed: Math.random() * 3 + 1
       });
     }
 
-    function openLightbox(src) {
-      const lightbox = document.getElementById('lightbox');
-      const img = document.getElementById('lightbox-img');
-      img.src = src;
-      lightbox.classList.add('active');
+    function createObstacle() {
+      const lane = Math.floor(Math.random() * 3);
+      const x = 120 + lane * 90;
+      obstacles.push({
+        x, y: -120, width: 60, height: 100,
+        speed: gameSpeed + Math.random() * 3,
+        glow: `hsl(${Math.random()*60 + 300}, 100%, 70%)`
+      });
     }
 
-    function closeLightbox() {
-      document.getElementById('lightbox').class'List.remove('active');
+    function createExplosion(x, y) {
+      for (let i = 0; i < 30; i++) {
+        particles.push({
+          x, y,
+          vx: (Math.random() - 0.5) * 20,
+          vy: (Math.random() - 0.5) * 20,
+          life: 40,
+          color: ['#f33', '#ff0', '#f90'][Math.floor(Math.random()*3)],
+          size: Math.random() * 6 + 3
+        });
+      }
+      sounds.crash.currentTime = 0; sounds.crash.play();
+      canvas.style.animation = 'shake 0.3s';
+      setTimeout(() => canvas.style.animation = '', 300);
     }
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeLightbox();
+    function draw3DRoad() {
+      const horizon = 200;
+      const roadWidth = 300;
+      ctx.fillStyle = '#111';
+      ctx.beginPath();
+      ctx.moveTo(0, horizon);
+      ctx.lineTo(canvas.width, horizon);
+      ctx.lineTo(canvas.width, canvas.height);
+      ctx.lineTo(0, canvas.height);
+      ctx.closePath();
+      ctx.fill();
+
+      // Vạch đường
+      ctx.strokeStyle = '#0ff';
+      ctx.lineWidth = 4;
+      for (let i = 0; i < 15; i++) {
+        const y = (i * 60 + Date.now() * 0.1) % (canvas.height + 100);
+        const w = roadWidth * (1 - (y - horizon) / (canvas.height - horizon));
+        const x = (canvas.width - w) / 2;
+        ctx.beginPath();
+        ctx.setLineDash([30, 30]);
+        ctx.moveTo(x + w * 0.48, y);
+        ctx.lineTo(x + w * 0.52, y);
+        ctx.stroke();
+      }
+      ctx.setLineDash([]);
+    }
+
+    function drawPlayer() {
+      // Vệt sáng
+      player.trail.push({ x: player.x + 25, y: player.y + 70 });
+      if (player.trail.length > 15) player.trail.shift();
+      player.trail.forEach((p, i) => {
+        ctx.fillStyle = `rgba(0, 255, 255, ${i/player.trail.length * 0.8})`;
+        ctx.fillRect(p.x - 5, p.y, 10, 20);
+      });
+
+      // Xe
+      const gradient = ctx.createLinearGradient(player.x, player.y, player.x + player.width, player.y + player.height);
+      gradient.addColorStop(0, '#0ff');
+      gradient.addColorStop(1, '#f0f');
+      ctx.fillStyle = gradient;
+      ctx.shadowBlur = 30; ctx.shadowColor = '#0ff';
+      ctx.fillRect(player.x, player.y, player.width, player.height);
+
+      // Đèn pha
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(player.x + 10, player.y - 10, 10, 15);
+      ctx.fillRect(player.x + 30, player.y - 10, 10, 15);
+    }
+
+    function gameLoop() {
+      if (!gameActive) return;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      draw3DRoad();
+
+      // Sao
+      stars.forEach(s => {
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(s.x, s.y, s.size, s.size);
+        s.y += s.speed * (gameSpeed / 5);
+        if (s.y > canvas.height) {
+          s.y = 0; s.x = Math.random() * canvas.width;
+        }
+      });
+
+      drawPlayer();
+      obstacles.forEach((obs, i) => {
+        ctx.shadowBlur = 25; ctx.shadowColor = obs.glow;
+        ctx.fillStyle = obs.glow;
+        ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+        obs.y += obs.speed;
+
+        if (obs.y > canvas.height) {
+          obstacles.splice(i, 1);
+          score += 10;
+          scoreEl.textContent = score;
+          gameSpeed += 0.05;
+          speedEl.textContent = (gameSpeed/5).toFixed(1) + 'x';
+        }
+      });
+
+      particles.forEach((p, i) => {
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x, p.y, p.size, p.size);
+        p.x += p.vx; p.y += p.vy; p.life--;
+        if (p.life <= 0) particles.splice(i, 1);
+      });
+
+      // Va chạm
+      obstacles.forEach(obs => {
+        if (
+          player.x < obs.x + obs.width &&
+          player.x + player.width > obs.x &&
+          player.y < obs.y + obs.height &&
+          player.y + player.height > obs.y
+        ) {
+          createExplosion(player.x + 25, player.y + 40);
+          gameActive = false;
+          finalScoreEl.textContent = score;
+          if (score > highscore) {
+            highscore = score;
+            localStorage.setItem('neonHighscore', highscore);
+            highscoreEl.textContent = highscore;
+          }
+          gameOverScreen.style.display = 'block';
+          sounds.bgm.pause();
+        }
+      });
+
+      if (Math.random() < 0.03 + score / 1000) createObstacle();
+      requestAnimationFrame(gameLoop);
+    }
+
+    // Điều khiển
+    document.addEventListener('keydown', e => {
+      if (!gameActive) return;
+      if (e.key === 'ArrowLeft' && player.x > 80) player.x -= player.speed * 20;
+      if (e.key === 'ArrowRight' && player.x < 310) player.x += player.speed * 20;
     });
+
+    // Touch
+    let touchX = 0;
+    canvas.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; });
+    canvas.addEventListener('touchmove', e => {
+      if (!gameActive) return;
+      const diff = e.touches[0].clientX - touchX;
+      player.x = Math.max(80, Math.min(310, player.x + diff));
+      touchX = e.touches[0].clientX;
+    });
+
+    function restartGame() {
+      obstacles = []; particles = []; player.trail = []; score = 0; gameSpeed = 5; gameActive = true;
+      player.x = 200;
+      scoreEl.textContent = '0';
+      speedEl.textContent = '1.0x';
+      gameOverScreen.style.display = 'none';
+      sounds.bgm.currentTime = 0; sounds.bgm.play();
+      gameLoop();
+    }
+
+    // Khởi động
+    sounds.bgm.play();
+    gameLoop();
+
+    // Shake animation
+    const style = document.createElement('style');
+    style.innerHTML = `@keyframes shake { 0%,100%{transform:translateX(0)} 10%,30%,50%,70%,90%{transform:translateX(-10px)} 20%,40%,60%,80%{transform:translateX(10px)} }`;
+    document.head.appendChild(style);
   </script>
 </body>
 </html>
