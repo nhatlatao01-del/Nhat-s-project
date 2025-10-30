@@ -219,6 +219,8 @@
       <h2 lang="en">Small Web Projects</h2>
 
       <div class="grid">
+        <!-- GAME ĐUA XE: Neon Car Dodge PRO -->
+        <!-- Link thực tế: /banga/ nhưng chạy game ĐUA XE -->
         <div class="project">
           <img src="https://i.postimg.cc/LYtzJ3k7/Gemini-Generated-Image-yvgk1dyvgk1dyvgk.png" alt="Neon Car Dodge PRO" onclick="openLightbox(this.src)">
           <div>
@@ -232,12 +234,14 @@
             <p lang="en" style="font-size:0.9rem; color:#0A66C2; margin:0.5rem 0;">
               <strong>Tech:</strong> HTML5 Canvas, JavaScript, 3D perspective, particles, sound
             </p>
-            <a href="game_dua_xe.html" target="_blank" class="play-btn">
+            <a href="https://nhatlatao01-del.github.io/banga/" target="_blank" class="play-btn">
               Chơi ngay
             </a>
           </div>
         </div>
 
+        <!-- GAME BẮN GÀ: Galaxy Shooter -->
+        <!-- Link thực tế: /duxe/ nhưng chạy game BẮN GÀ -->
         <div class="project">
           <img src="https://i.postimg.cc/H8W7VDk3/Gemini-Generated-Image-eiw54seiw54seiw5.png" alt="Galaxy Shooter" onclick="openLightbox(this.src)">
           <div>
@@ -251,7 +255,7 @@
             <p lang="en" style="font-size:0.9rem; color:#0A66C2; margin:0.5rem 0;">
               <strong>Tech:</strong> HTML5 Canvas, JavaScript, collision, waves, particles
             </p>
-            <a href="game_ban_ga.html" target="_blank" class="play-btn">
+            <a href="https://nhatlatao01-del.github.io/duxe/" target="_blank" class="play-btn">
               Chơi ngay
             </a>
           </div>
@@ -289,7 +293,7 @@
     }
 
     function closeLightbox() {
-      document.getElementById('lightbox').class'List.remove('active');
+      document.getElementById('lightbox').classList.remove('active');
     }
 
     document.addEventListener('keydown', (e) => {
